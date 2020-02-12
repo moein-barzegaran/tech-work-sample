@@ -99,13 +99,12 @@
 		50B21EC123F440E50062A2D5 /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
-				50B21EC223F440E50062A2D5 /* AppDelegate.swift */,
-				50B21EC423F440E50062A2D5 /* SceneDelegate.swift */,
-				50B21EC623F440E50062A2D5 /* ViewController.swift */,
-				50B21EC823F440E50062A2D5 /* Main.storyboard */,
-				50B21ECB23F440E60062A2D5 /* Assets.xcassets */,
-				50B21ECD23F440E60062A2D5 /* LaunchScreen.storyboard */,
-				50B21ED023F440E60062A2D5 /* Info.plist */,
+				50F854FB23F44336005EF7DA /* Application */,
+				50F854FA23F44328005EF7DA /* Models */,
+				50F854F923F44319005EF7DA /* Networking */,
+				50F854F523F442E0005EF7DA /* CorePlatform */,
+				50F854F023F4426F005EF7DA /* Supporting Files */,
+				50F854F123F44297005EF7DA /* Resources */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -126,6 +125,111 @@
 				50B21EE623F440E60062A2D5 /* Info.plist */,
 			);
 			path = WeatherForecastUITests;
+			sourceTree = "<group>";
+		};
+		50F854F023F4426F005EF7DA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				50B21EC823F440E50062A2D5 /* Main.storyboard */,
+				50B21ECD23F440E60062A2D5 /* LaunchScreen.storyboard */,
+				50B21ED023F440E60062A2D5 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		50F854F123F44297005EF7DA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				50F854F423F442CA005EF7DA /* Localization */,
+				50F854F323F442C3005EF7DA /* Fonts */,
+				50F854F223F442B8005EF7DA /* Assets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		50F854F223F442B8005EF7DA /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				50B21ECB23F440E60062A2D5 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		50F854F323F442C3005EF7DA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		50F854F423F442CA005EF7DA /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		50F854F523F442E0005EF7DA /* CorePlatform */ = {
+			isa = PBXGroup;
+			children = (
+				50F854F823F4430E005EF7DA /* Extensions */,
+				50F854F723F44307005EF7DA /* Enums */,
+				50F854F623F442FF005EF7DA /* Utilities */,
+			);
+			path = CorePlatform;
+			sourceTree = "<group>";
+		};
+		50F854F623F442FF005EF7DA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		50F854F723F44307005EF7DA /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		50F854F823F4430E005EF7DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		50F854F923F44319005EF7DA /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		50F854FA23F44328005EF7DA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		50F854FB23F44336005EF7DA /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				50B21EC223F440E50062A2D5 /* AppDelegate.swift */,
+				50B21EC423F440E50062A2D5 /* SceneDelegate.swift */,
+				50F854FC23F4433D005EF7DA /* Scenes */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		50F854FC23F4433D005EF7DA /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				50B21EC623F440E50062A2D5 /* ViewController.swift */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,7 +540,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8B799U9T8;
-				INFOPLIST_FILE = WeatherForecast/Info.plist;
+				INFOPLIST_FILE = "WeatherForecast/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,7 +558,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A8B799U9T8;
-				INFOPLIST_FILE = WeatherForecast/Info.plist;
+				INFOPLIST_FILE = "WeatherForecast/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
