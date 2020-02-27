@@ -6,4 +6,4 @@
 //  Copyright © 2020 Moein Barzegaran. All rights reserved.
 //
 
-public let APIKey = "<#API_Key#>"
+public let APIKey = <#API_Key#>
