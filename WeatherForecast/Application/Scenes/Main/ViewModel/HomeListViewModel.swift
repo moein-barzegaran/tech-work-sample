@@ -18,6 +18,7 @@ class HomeListViewModel: NSObject {
     var showLocationAlertView: (() -> ())?
     var navigationBarTitleChanged: ((String) -> ())?
     var locationPermissionReady: (() -> ())?
+    var locationNotAvailable: (() -> ())?
     // MARK: - Private Properties
     private var currentLocation: Coordinate!
     private let locationManager = CLLocationManager()
@@ -101,17 +102,23 @@ class HomeListViewModel: NSObject {
         case .denied, .restricted:
             showLocationAlertView?()
         case .authorizedAlways, .authorizedWhenInUse:
-            fetchCurrentLocation()
-            locationPermissionReady?()
+            if let location = fetchCurrentLocation() {
+                currentLocation = location
+                locationPermissionReady?()
+            } else {
+                locationNotAvailable?()
+            }
         @unknown default:
             assertionFailure("Problem in status of location manager")
         }
     }
     
-    private func fetchCurrentLocation() {
+    private func fetchCurrentLocation() -> Coordinate? {
+        var location: Coordinate?
         if let currentLoc = locationManager.location {
-            currentLocation = Coordinate(lon: currentLoc.coordinate.longitude, lat: currentLoc.coordinate.latitude)
+            location = Coordinate(lon: currentLoc.coordinate.longitude, lat: currentLoc.coordinate.latitude)
         }
+        return location
     }
 }
 

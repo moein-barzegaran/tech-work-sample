@@ -10,13 +10,70 @@ import UIKit
 
 class CurrentWeatherView: UIView {
     // MARK: - Views
-    private lazy var currentLabel = Label(font: .systemFont(ofSize: 60, weight: .bold), textColor: .white)
-    private lazy var cityNameLabel = Label(font: .systemFont(ofSize: 24, weight: .bold), textColor: .white)
-    private lazy var weatherDescriptionLabel = Label(font: .systemFont(ofSize: 18, weight: .bold), textColor: .white)
-    private lazy var weatherIcon = Image()
-    private lazy var feelLikeWeather = Label(text: "Feels Like", font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
-    private lazy var feelLikeWeatherLabel = Label(font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
-    private lazy var minMaxWeatherLabel = Label(font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
+    private lazy var currentLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 60, weight: .bold), textColor: .white)
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
+            label.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        return label
+    }()
+    private lazy var weatherDescriptionLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 18, weight: .bold), textColor: .white)
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+            label.rightAnchor.constraint(equalTo: feelLikeWeather.leftAnchor, constant: -8)
+        ])
+        return label
+    }()
+    private lazy var weatherIcon: Image = {
+        let image = Image()
+        addSubview(image)
+        
+        NSLayoutConstraint.activate([
+            image.centerXAnchor.constraint(equalTo: centerXAnchor),
+            image.centerYAnchor.constraint(equalTo: centerYAnchor),
+            image.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
+            image.widthAnchor.constraint(equalTo: image.heightAnchor),
+        ])
+        return image
+    }()
+    private lazy var feelLikeWeather: Label = {
+        let label = Label(text: "Feels Like", font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
+        addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.rightAnchor.constraint(equalTo: feelLikeWeatherLabel.leftAnchor, constant: -8),
+            label.centerYAnchor.constraint(equalTo: feelLikeWeatherLabel.centerYAnchor),
+        ])
+        return label
+    }()
+    private lazy var feelLikeWeatherLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+        ])
+        return label
+    }()
+    private lazy var minMaxWeatherLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 18, weight: .medium), textColor: .white)
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+        ])
+        return label
+    }()
     
     // MARK: - View Initializer
     override init(frame: CGRect) {
@@ -37,11 +94,9 @@ class CurrentWeatherView: UIView {
     
     private func commonInit() {
         self.backgroundColor = UIColor.white.withAlphaComponent(0.1)
-        setupViews()
     }
     
     func updateUI(_ currentWeatherData: CurrentWeatherModel) {
-        cityNameLabel.text = currentWeatherData.name
         currentLabel.text = currentWeatherData.main.temp?.toDegree
         weatherDescriptionLabel.text = currentWeatherData.weather.first?.weatherDescription
         feelLikeWeatherLabel.text = currentWeatherData.main.feelsLike?.toDegree
@@ -63,81 +118,5 @@ class CurrentWeatherView: UIView {
         attributedString1.append(NSAttributedString(string: " "))
         attributedString1.append(attributedString2)
         return  attributedString1
-    }
-    
-    private func setupViews() {
-        prepareCurrentLabel()
-        prepareDescriptionLabel()
-        prepareWeatherIcon()
-        prepareFeelLikeWeatherLabel()
-        prepareFeelLike()
-        prepareMinMaxLabel()
-    }
-    
-    private func prepareCityNameLabel() {
-        addSubview(cityNameLabel)
-        
-        NSLayoutConstraint.activate([
-            cityNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            cityNameLabel.leftAnchor.constraint(lessThanOrEqualTo: currentLabel.rightAnchor),
-            cityNameLabel.rightAnchor.constraint(equalTo: minMaxWeatherLabel.leftAnchor)
-        ])
-    }
-    
-    private func prepareCurrentLabel() {
-        addSubview(currentLabel)
-        
-        NSLayoutConstraint.activate([
-            currentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            currentLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-            currentLabel.widthAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    private func prepareDescriptionLabel() {
-        addSubview(weatherDescriptionLabel)
-        
-        NSLayoutConstraint.activate([
-            weatherDescriptionLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-            weatherDescriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15)
-        ])
-    }
-    
-    private func prepareWeatherIcon() {
-        addSubview(weatherIcon)
-        
-        NSLayoutConstraint.activate([
-            weatherIcon.centerXAnchor.constraint(equalTo: centerXAnchor),
-            weatherIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
-            weatherIcon.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
-            weatherIcon.widthAnchor.constraint(equalTo: weatherIcon.heightAnchor),
-        ])
-    }
-    
-    private func prepareFeelLikeWeatherLabel() {
-        addSubview(feelLikeWeatherLabel)
-        
-        NSLayoutConstraint.activate([
-            feelLikeWeatherLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
-            feelLikeWeatherLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
-        ])
-    }
-    
-    private func prepareFeelLike() {
-        addSubview(feelLikeWeather)
-        
-        NSLayoutConstraint.activate([
-            feelLikeWeather.rightAnchor.constraint(equalTo: feelLikeWeatherLabel.leftAnchor, constant: -8),
-            feelLikeWeather.centerYAnchor.constraint(equalTo: feelLikeWeatherLabel.centerYAnchor),
-        ])
-    }
-    
-    private func prepareMinMaxLabel() {
-        addSubview(minMaxWeatherLabel)
-        
-        NSLayoutConstraint.activate([
-            minMaxWeatherLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
-            minMaxWeatherLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-        ])
     }
 }

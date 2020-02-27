@@ -10,17 +10,69 @@ import UIKit
 
 class DailyWeatherDetailView: UIView {
     // MARK: - Views
-    private lazy var pressureStackView = HorizontalStackView()
-    private lazy var humidityStackView = HorizontalStackView()
-    private lazy var windStackView = HorizontalStackView()
-    private lazy var cloudinessStackView = HorizontalStackView()
+    private lazy var pressureStackView: HorizontalStackView = {
+        let stack = HorizontalStackView()
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            stack.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
+            stack.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
+            stack.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        stack.icon.image = UIImage(named: "gauge")?.imageWithColor(newColor: .gray)
+        stack.titleLabel.text = "Pressure"
+        return stack
+    }()
+    private lazy var humidityStackView: HorizontalStackView = {
+        let stack = HorizontalStackView()
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: pressureStackView.bottomAnchor, constant: 0),
+            stack.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
+            stack.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
+            stack.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        stack.icon.image = UIImage(named: "humidity")?.imageWithColor(newColor: .gray)
+        stack.titleLabel.text = "Humidity"
+        return stack
+    }()
+    private lazy var windStackView: HorizontalStackView = {
+        let stack = HorizontalStackView()
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: humidityStackView.bottomAnchor, constant: 0),
+            stack.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
+            stack.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
+            stack.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        stack.icon.image = UIImage(named: "wind")?.imageWithColor(newColor: .gray)
+        stack.titleLabel.text = "Wind"
+        return stack
+    }()
+    private lazy var cloudinessStackView: HorizontalStackView = {
+        let stack = HorizontalStackView()
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: windStackView.bottomAnchor, constant: 0),
+            stack.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
+            stack.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
+            stack.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        stack.icon.image = UIImage(named: "cloud")?.imageWithColor(newColor: .gray)
+        stack.titleLabel.text = "Cloudiness"
+        stack.dividerView.isHidden = true
+        return stack
+    }()
     // MARK: - Publlic Properties
     var dailyWeatherData: DailyList! {
         didSet {
             updateUI()
         }
     }
-    
     // MARK: - View Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +83,6 @@ class DailyWeatherDetailView: UIView {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
     // MARK: - Methods
     private func updateUI() {
         pressureStackView.updateValue(value: "\(dailyWeatherData.pressure ?? 0)hPa")
@@ -42,62 +93,5 @@ class DailyWeatherDetailView: UIView {
     
     private func commonInit() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        preparePressureStackView()
-        prepareHumidityStackView()
-        prepareWindStackView()
-        prepareCloudinessStackView()
-    }
-    
-    private func preparePressureStackView() {
-        addSubview(pressureStackView)
-        
-        NSLayoutConstraint.activate([
-            pressureStackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            pressureStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
-            pressureStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
-            pressureStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        pressureStackView.icon.image = UIImage(named: "gauge")?.imageWithColor(newColor: .gray)
-        pressureStackView.titleLabel.text = "Pressure"
-    }
-
-    private func prepareHumidityStackView() {
-        addSubview(humidityStackView)
-
-        NSLayoutConstraint.activate([
-            humidityStackView.topAnchor.constraint(equalTo: pressureStackView.bottomAnchor, constant: 0),
-            humidityStackView.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
-            humidityStackView.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
-            humidityStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        humidityStackView.icon.image = UIImage(named: "humidity")?.imageWithColor(newColor: .gray)
-        humidityStackView.titleLabel.text = "Humidity"
-    }
-    
-    private func prepareWindStackView() {
-        addSubview(windStackView)
-
-        NSLayoutConstraint.activate([
-            windStackView.topAnchor.constraint(equalTo: humidityStackView.bottomAnchor, constant: 0),
-            windStackView.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
-            windStackView.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
-            windStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        windStackView.icon.image = UIImage(named: "wind")?.imageWithColor(newColor: .gray)
-        windStackView.titleLabel.text = "Wind"
-    }
-    
-    private func prepareCloudinessStackView() {
-        addSubview(cloudinessStackView)
-
-        NSLayoutConstraint.activate([
-            cloudinessStackView.topAnchor.constraint(equalTo: windStackView.bottomAnchor, constant: 0),
-            cloudinessStackView.leftAnchor.constraint(equalTo: pressureStackView.leftAnchor),
-            cloudinessStackView.rightAnchor.constraint(equalTo: pressureStackView.rightAnchor),
-            cloudinessStackView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        cloudinessStackView.icon.image = UIImage(named: "cloud")?.imageWithColor(newColor: .gray)
-        cloudinessStackView.titleLabel.text = "Cloudiness"
-        cloudinessStackView.dividerView.isHidden = true
     }
 }

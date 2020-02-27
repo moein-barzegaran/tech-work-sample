@@ -30,7 +30,6 @@
 		5063E74E24072AEB00B45C6D /* ForecastHourlyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E74924072AEA00B45C6D /* ForecastHourlyModel.swift */; };
 		5063E74F24072AEB00B45C6D /* CurrentWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E74A24072AEB00B45C6D /* CurrentWeatherModel.swift */; };
 		5063E75024072AEB00B45C6D /* ForecastDailyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E74B24072AEB00B45C6D /* ForecastDailyModel.swift */; };
-		5063E75524072B0E00B45C6D /* ServiceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E75124072B0E00B45C6D /* ServiceLayer.swift */; };
 		5063E75624072B0E00B45C6D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E75224072B0E00B45C6D /* Router.swift */; };
 		5063E75724072B0E00B45C6D /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E75324072B0E00B45C6D /* MockURLSession.swift */; };
 		5063E75824072B0E00B45C6D /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063E75424072B0E00B45C6D /* NetworkLayer.swift */; };
@@ -106,7 +105,6 @@
 		5063E74924072AEA00B45C6D /* ForecastHourlyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastHourlyModel.swift; sourceTree = "<group>"; };
 		5063E74A24072AEB00B45C6D /* CurrentWeatherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherModel.swift; sourceTree = "<group>"; };
 		5063E74B24072AEB00B45C6D /* ForecastDailyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastDailyModel.swift; sourceTree = "<group>"; };
-		5063E75124072B0E00B45C6D /* ServiceLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceLayer.swift; sourceTree = "<group>"; };
 		5063E75224072B0E00B45C6D /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		5063E75324072B0E00B45C6D /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		5063E75424072B0E00B45C6D /* NetworkLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLayer.swift; sourceTree = "<group>"; };
@@ -458,7 +456,6 @@
 				5063E75324072B0E00B45C6D /* MockURLSession.swift */,
 				5063E75424072B0E00B45C6D /* NetworkLayer.swift */,
 				5063E75224072B0E00B45C6D /* Router.swift */,
-				5063E75124072B0E00B45C6D /* ServiceLayer.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -801,7 +798,6 @@
 				5063E77C24072C0400B45C6D /* HorizontalStackView.swift in Sources */,
 				5063E74C24072AEB00B45C6D /* FavoriteCity.swift in Sources */,
 				5063E738240729AE00B45C6D /* TodayDetailView.swift in Sources */,
-				5063E75524072B0E00B45C6D /* ServiceLayer.swift in Sources */,
 				5063E77624072BD700B45C6D /* Weather+Extension.swift in Sources */,
 				5063E74324072A1F00B45C6D /* FavoriteListViewController.swift in Sources */,
 				5063E71C2407285300B45C6D /* HomeViewController.swift in Sources */,
@@ -973,7 +969,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A8B799U9T8;
+				DEVELOPMENT_TEAM = ZCF68JAX4K;
 				INFOPLIST_FILE = "WeatherForecast/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -992,7 +988,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A8B799U9T8;
+				DEVELOPMENT_TEAM = ZCF68JAX4K;
 				INFOPLIST_FILE = "WeatherForecast/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

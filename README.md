@@ -7,6 +7,7 @@
 - Open the `MyApp.xcworkspace`
 - Put your `API Key` to the `APIKey.swift` file in the **Resource** folder.
 - Add your Apple developer account or bundle to test on real device.
+- In the simulator, please make sure you added custom location before running the app.
 
 ## Description
 

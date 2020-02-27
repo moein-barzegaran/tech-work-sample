@@ -46,4 +46,9 @@ class GradientView: View {
             layer.endPoint = CGPoint (x: 0.5, y: 1)
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateView()
+    }
 }

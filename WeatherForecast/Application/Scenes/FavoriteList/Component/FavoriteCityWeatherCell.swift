@@ -10,12 +10,75 @@ import UIKit
 
 class FavoriteCityWeatherCell: UITableViewCell {
     // MARK: - Views
-    private lazy var holderView = View()
-    private lazy var cityNameLabel = Label(font: .systemFont(ofSize: 20, weight: .bold))
-    private lazy var minLabel = Label(font: .systemFont(ofSize: 18, weight: .regular))
-    private lazy var maxLabel = Label(font: .systemFont(ofSize: 20, weight: .regular), textColor: .orange)
-    private lazy var weatherIcon = Image()
-    lazy var favoriteIcon = Image(image: UIImage(systemName: "star.fill")?.imageWithColor(newColor: .orange))
+    private lazy var holderView: View = {
+        let view = View()
+        contentView.addSubview(view)
+        
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
+            view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
+            view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+        ])
+        return view
+    }()
+    private lazy var cityNameLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 20, weight: .bold))
+         holderView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
+            label.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 12),
+            label.rightAnchor.constraint(lessThanOrEqualTo: holderView.centerXAnchor, constant: -10)
+        ])
+        label.numberOfLines = 0
+        return label
+    }()
+    private lazy var minLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 18, weight: .regular))
+        holderView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
+            label.rightAnchor.constraint(equalTo: weatherIcon.leftAnchor, constant: -12),
+        ])
+        return label
+    }()
+    private lazy var maxLabel: Label = {
+        let label = Label(font: .systemFont(ofSize: 20, weight: .regular), textColor: .orange)
+       holderView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
+            label.rightAnchor.constraint(equalTo: minLabel.leftAnchor, constant: -12),
+        ])
+        return label
+    }()
+    private lazy var weatherIcon: Image = {
+        let image = Image()
+       holderView.addSubview(image)
+        
+        NSLayoutConstraint.activate([
+            image.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
+            image.rightAnchor.constraint(equalTo: holderView.rightAnchor),
+            image.heightAnchor.constraint(equalToConstant: 45),
+            image.widthAnchor.constraint(equalToConstant: 45)
+        ])
+        return image
+    }()
+    lazy var favoriteIcon: Image = {
+        let image = Image(image: UIImage(systemName: "star.fill")?.imageWithColor(newColor: .orange))
+        holderView.addSubview(image)
+        
+        image.isHidden = true
+        NSLayoutConstraint.activate([
+            image.centerYAnchor.constraint(equalTo: cityNameLabel.centerYAnchor),
+            image.leftAnchor.constraint(equalTo: cityNameLabel.rightAnchor, constant: 12),
+            image.widthAnchor.constraint(equalToConstant: 25),
+            image.heightAnchor.constraint(equalToConstant: 25)
+        ])
+        return image
+    }()
     
     // MARK: - View LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -50,78 +113,5 @@ class FavoriteCityWeatherCell: UITableViewCell {
     private func commonInit() {
         contentView.backgroundColor = .clear
         backgroundColor = .clear
-        setupViews()
-    }
-    
-    private func setupViews() {
-        prepareHolderView()
-        prepareCityNameLabel()
-        prepareFavoriteIcon()
-        prepareWeatherIcon()
-        prepareMinLabel()
-        prepareMaxLabel()
-    }
-    
-    private func prepareHolderView() {
-        contentView.addSubview(holderView)
-        
-        NSLayoutConstraint.activate([
-            holderView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            holderView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
-            holderView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
-            holderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
-        ])
-    }
-    
-    private func prepareWeatherIcon() {
-        holderView.addSubview(weatherIcon)
-        
-        NSLayoutConstraint.activate([
-            weatherIcon.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
-            weatherIcon.rightAnchor.constraint(equalTo: holderView.rightAnchor),
-            weatherIcon.heightAnchor.constraint(equalToConstant: 45),
-            weatherIcon.widthAnchor.constraint(equalToConstant: 45)
-        ])
-    }
-    
-    private func prepareMinLabel() {
-        holderView.addSubview(minLabel)
-        
-        NSLayoutConstraint.activate([
-            minLabel.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
-            minLabel.rightAnchor.constraint(equalTo: weatherIcon.leftAnchor, constant: -12),
-        ])
-    }
-    
-    private func prepareMaxLabel() {
-        holderView.addSubview(maxLabel)
-        
-        NSLayoutConstraint.activate([
-            maxLabel.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
-            maxLabel.rightAnchor.constraint(equalTo: minLabel.leftAnchor, constant: -12),
-        ])
-    }
-    
-    private func prepareCityNameLabel() {
-        holderView.addSubview(cityNameLabel)
-        
-        NSLayoutConstraint.activate([
-            cityNameLabel.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
-            cityNameLabel.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 12),
-            cityNameLabel.rightAnchor.constraint(lessThanOrEqualTo: holderView.centerXAnchor, constant: -10)
-        ])
-        cityNameLabel.numberOfLines = 0
-    }
-    
-    private func prepareFavoriteIcon() {
-        holderView.addSubview(favoriteIcon)
-        
-        favoriteIcon.isHidden = true
-        NSLayoutConstraint.activate([
-            favoriteIcon.centerYAnchor.constraint(equalTo: cityNameLabel.centerYAnchor),
-            favoriteIcon.leftAnchor.constraint(equalTo: cityNameLabel.rightAnchor, constant: 12),
-            favoriteIcon.widthAnchor.constraint(equalToConstant: 25),
-            favoriteIcon.heightAnchor.constraint(equalToConstant: 25)
-        ])
     }
 }

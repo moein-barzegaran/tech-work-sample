@@ -10,11 +10,85 @@ import UIKit
 
 class FavoriteListViewController: UIViewController {
     // MARK: - Views
-    private lazy var addIcon = Image(image: UIImage(systemName: "plus.circle.fill")?.imageWithColor(newColor: .white))
-    private lazy var closeIcon = Image(image: UIImage(systemName: "xmark.circle.fill")?.imageWithColor(newColor: .white))
-    private lazy var favoriteButton = Button(titleText: "Add Your Favorite City")
-    private lazy var gradientView = GradientView()
-    private lazy var tableView = UITableView()
+    private lazy var addIcon: Image = {
+        let image = Image(image: UIImage(systemName: "plus.circle.fill")?.imageWithColor(newColor: .white))
+        view.addSubview(image)
+        
+        let margins = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            image.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 12),
+            image.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            image.heightAnchor.constraint(equalToConstant: 20),
+            image.widthAnchor.constraint(equalToConstant: 20)
+        ])
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSearchCityController)))
+        image.isUserInteractionEnabled = true
+        return image
+    }()
+    private lazy var closeIcon: Image = {
+        let image = Image(image: UIImage(systemName: "xmark.circle.fill")?.imageWithColor(newColor: .white))
+        view.addSubview(image)
+        
+        let margins = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            image.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -12),
+            image.centerYAnchor.constraint(equalTo: addIcon.centerYAnchor),
+            image.heightAnchor.constraint(equalToConstant: 20),
+            image.widthAnchor.constraint(equalToConstant: 20)
+        ])
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissController)))
+        image.isUserInteractionEnabled = true
+        return image
+    }()
+    private lazy var favoriteButton: Button = {
+        let button = Button(titleText: "Add Your Favorite City")
+        view.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.leftAnchor.constraint(equalTo: addIcon.rightAnchor, constant: 8),
+            button.centerYAnchor.constraint(equalTo: addIcon.centerYAnchor),
+            button.heightAnchor.constraint(equalToConstant: 60),
+            button.rightAnchor.constraint(equalTo: closeIcon.leftAnchor, constant: -8)
+        ])
+        button.addTarget(self, action: #selector(goToSearchCityController), for: .touchUpInside)
+        return button
+    }()
+    private lazy var gradientView: GradientView = {
+        let gradientView = GradientView()
+        view.addSubview(gradientView)
+        
+        NSLayoutConstraint.activate([
+            gradientView.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor),
+            gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            gradientView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            gradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        gradientView.firstColor = .current(color: .gradientTop)
+        gradientView.secondColor = .current(color: .gradientBottom)
+        gradientView.endColor = .current(color: .gradientBottom)
+        gradientView.isHorizontal = false
+        return gradientView
+    }()
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        gradientView.addSubview(table)
+        
+        NSLayoutConstraint.activate([
+            table.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor),
+            table.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
+            table.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        table.allowsSelection = true
+        table.separatorStyle = .none
+        table.register(FavoriteCityWeatherCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        table.estimatedRowHeight = 100
+        table.rowHeight = UITableView.automaticDimension
+        table.backgroundColor = .clear
+        table.alwaysBounceVertical = true
+        table.refreshControl = refreshControl
+        return table
+    }()
     private lazy var refreshControl: UIRefreshControl = {
         let refresh = UIRefreshControl()
         refresh.tintColor = .white
@@ -45,7 +119,6 @@ class FavoriteListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .current(color: .gradientTop)
-        setupViews()
         fetchFavoriteCities()
     }
     
@@ -94,88 +167,6 @@ class FavoriteListViewController: UIViewController {
             favoriteCitiesWeatherList = list
         }
     }
-    
-    private func setupViews() {
-        prepareAddIcon()
-        prepareFavoriteButton()
-        prepareCloseIcon()
-        prepareGradientView()
-        prepareTableView()
-    }
-    
-    private func prepareAddIcon() {
-        view.addSubview(addIcon)
-        
-        let margins = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            addIcon.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 12),
-            addIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            addIcon.heightAnchor.constraint(equalToConstant: 20),
-            addIcon.widthAnchor.constraint(equalToConstant: 20)
-        ])
-        addIcon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToSearchCityController)))
-        addIcon.isUserInteractionEnabled = true
-    }
-    
-    private func prepareFavoriteButton() {
-        view.addSubview(favoriteButton)
-        
-        NSLayoutConstraint.activate([
-            favoriteButton.leftAnchor.constraint(equalTo: addIcon.rightAnchor, constant: 8),
-            favoriteButton.centerYAnchor.constraint(equalTo: addIcon.centerYAnchor),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        favoriteButton.addTarget(self, action: #selector(goToSearchCityController), for: .touchUpInside)
-    }
-    
-    private func prepareCloseIcon() {
-        view.addSubview(closeIcon)
-        
-        let margins = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            closeIcon.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -12),
-            closeIcon.centerYAnchor.constraint(equalTo: addIcon.centerYAnchor),
-            closeIcon.heightAnchor.constraint(equalToConstant: 20),
-            closeIcon.widthAnchor.constraint(equalToConstant: 20)
-        ])
-        closeIcon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissController)))
-        closeIcon.isUserInteractionEnabled = true
-    }
-    
-    private func prepareGradientView() {
-        view.addSubview(gradientView)
-        
-        NSLayoutConstraint.activate([
-            gradientView.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor),
-            gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            gradientView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            gradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        gradientView.firstColor = .current(color: .gradientTop)
-        gradientView.secondColor = .current(color: .gradientBottom)
-        gradientView.endColor = .current(color: .gradientBottom)
-        gradientView.isHorizontal = false
-    }
-    
-    private func prepareTableView() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor),
-            tableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
-            tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        tableView.allowsSelection = true
-        tableView.separatorStyle = .none
-        tableView.register(FavoriteCityWeatherCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .clear
-        tableView.alwaysBounceVertical = true
-        tableView.refreshControl = refreshControl
-    }
 }
 
 // MARK: - Table view delegates
@@ -211,6 +202,7 @@ extension FavoriteListViewController: UITableViewDataSource, UITableViewDelegate
         tableView.moveRow(at: indexPath, to: IndexPath(row: 0, section: 0))
         tableView.endUpdates()
         CacheManager.shared.saveMyFavoriteCity(city: city)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

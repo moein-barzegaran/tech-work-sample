@@ -10,7 +10,16 @@ import UIKit
 
 class SearchCityCell: UITableViewCell {
     // MARK: - Views
-    lazy var titleLabel = Label(textColor: .current(color: .textColor))
+    lazy var titleLabel: Label = {
+        let label = Label(textColor: .current(color: .textColor))
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 10)
+        ])
+        return label
+    }()
     // MARK: - View Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,11 +33,5 @@ class SearchCityCell: UITableViewCell {
     
     private func commonInit() {
         backgroundColor = .current(color: .background)
-        addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10)
-        ])
     }
 }

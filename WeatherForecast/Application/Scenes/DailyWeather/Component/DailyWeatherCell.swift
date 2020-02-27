@@ -10,11 +10,50 @@ import UIKit
 
 class DailyWeatherCell: UICollectionViewCell {
     // MARK: - Views
-    lazy var hourLabel = Label(text: "Hour", font: .systemFont(ofSize: 12, weight: .medium), textColor: .current(color: .textColor))
-    lazy var maxTempLabel = Label(text: "Max", font: .systemFont(ofSize: 16, weight: .light), textColor: .orange)
-    lazy var minTempLabel = Label(text: "Min", font: .systemFont(ofSize: 14, weight: .light), textColor: .current(color: .textColor))
-    lazy var weatherIcon = Image()
-    
+    lazy var hourLabel: Label = {
+        let label = Label(text: "Hour", font: .systemFont(ofSize: 12, weight: .medium), textColor: .current(color: .textColor))
+        contentView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
+        return label
+    }()
+    lazy var maxTempLabel: Label = {
+        let label = Label(text: "Max", font: .systemFont(ofSize: 16, weight: .light), textColor: .orange)
+        contentView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: hourLabel.bottomAnchor, constant: 5),
+            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+        ])
+        return label
+    }()
+    lazy var minTempLabel: Label = {
+        let label = Label(text: "Min", font: .systemFont(ofSize: 14, weight: .light), textColor: .current(color:
+            .textColor))
+        contentView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: maxTempLabel.bottomAnchor, constant: 5),
+            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+        ])
+        return label
+    }()
+    lazy var weatherIcon: Image = {
+        let image = Image()
+        contentView.addSubview(image)
+        
+        NSLayoutConstraint.activate([
+            image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            image.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            image.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            image.heightAnchor.constraint(equalTo: image.widthAnchor),
+        ])
+        return image
+    }()
     // MARK: - View Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +64,7 @@ class DailyWeatherCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+    // MARK: - Methods
     override func prepareForReuse() {
         super.prepareForReuse()
         weatherIcon.sd_cancelCurrentImageLoad()
@@ -37,7 +76,6 @@ class DailyWeatherCell: UICollectionViewCell {
         minTempLabel.font = .systemFont(ofSize: 14, weight: .light)
     }
     
-    // MARK: - Methods
     func updateUI(_ dailyData: DailyList) {
         hourLabel.text = dailyData.dt?.timeIntervalToDayString()
         maxTempLabel.text = dailyData.temp?.max?.toDegree
@@ -49,48 +87,5 @@ class DailyWeatherCell: UICollectionViewCell {
     
     private func commonInit() {
         self.backgroundColor = .current(color: .background)
-        prepareWeatherIcon()
-        prepareHourLabel()
-        prepareMaxTempLabel()
-        prepareMinTempLabel()
-    }
-    
-    private func prepareWeatherIcon() {
-        contentView.addSubview(weatherIcon)
-        
-        NSLayoutConstraint.activate([
-            weatherIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            weatherIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            weatherIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
-            weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor),
-        ])
-    }
-    
-    private func prepareHourLabel() {
-        contentView.addSubview(hourLabel)
-        
-        NSLayoutConstraint.activate([
-            hourLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            hourLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-        ])
-    }
-    
-    private func prepareMaxTempLabel() {
-        contentView.addSubview(maxTempLabel)
-        
-        NSLayoutConstraint.activate([
-            maxTempLabel.topAnchor.constraint(equalTo: hourLabel.bottomAnchor, constant: 5),
-            maxTempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-        ])
-    }
-    
-    private func prepareMinTempLabel() {
-        contentView.addSubview(minTempLabel)
-        
-        NSLayoutConstraint.activate([
-            minTempLabel.topAnchor.constraint(equalTo: maxTempLabel.bottomAnchor, constant: 5),
-            minTempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            minTempLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-        ])
     }
 }

@@ -21,6 +21,13 @@ extension Double {
         return calender.isDateInToday(date) ? "Today" : df.string(from: date)
     }
     
+    func timeIntervalToDayStringWithoutToday() -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(exactly: self) ?? TimeInterval.init())
+        let df = DateFormatter()
+        df.dateFormat = "EEE dd"
+        return df.string(from: date)
+    }
+    
     func timeIntervalToHourString() -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(exactly: self) ?? TimeInterval.init())
         let df = DateFormatter()

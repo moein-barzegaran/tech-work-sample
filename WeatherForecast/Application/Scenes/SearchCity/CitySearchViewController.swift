@@ -14,12 +14,42 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchBar)
+        
+        let margins = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: margins.topAnchor),
+            searchBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+            searchBar.rightAnchor.constraint(equalTo: view.rightAnchor),
+        ])
+        searchBar.delegate = self
         searchBar.searchBarStyle = .prominent
         searchBar.showsCancelButton = true
         searchBar.placeholder = "Add City"
         return searchBar
     }()
-    private lazy var tableView = UITableView()
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(table)
+        
+        let margins = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            table.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            table.leftAnchor.constraint(equalTo: margins.leftAnchor),
+            table.rightAnchor.constraint(equalTo: margins.rightAnchor),
+            table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        table.register(SearchCityCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        table.backgroundColor = .current(color: .background)
+        table.estimatedRowHeight = 100
+        table.allowsSelection = true
+        table.separatorStyle = .none
+        table.rowHeight = UITableView.automaticDimension
+        table.delegate = self
+        table.dataSource = self
+        return table
+    }()
     // MARK: - Private Properties
     private let cellReuseIdentifier = "SearchCell"
     private var searchResultArray: [City] = [] {
@@ -36,7 +66,8 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
     // MARK: - Controller LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        self.view.backgroundColor = .current(color: .background)
+        fetchCities()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,13 +76,6 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
     }
     
     // MARK: - Methods
-    private func setupViews() {
-        self.view.backgroundColor = .current(color: .background)
-        prepareSearchBar()
-        prepareCollectionView()
-        fetchCities()
-    }
-    
     private func fetchCities() {
         DispatchQueue.global().async {
             if let cities = self.loadJson(filename: "cityList") {
@@ -61,40 +85,7 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    
-    private func prepareSearchBar() {
-        view.addSubview(searchBar)
-        
-        let margins = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: margins.topAnchor),
-            searchBar.leftAnchor.constraint(equalTo: view.leftAnchor),
-            searchBar.rightAnchor.constraint(equalTo: view.rightAnchor),
-        ])
-        searchBar.delegate = self
-    }
-    
-    private func prepareCollectionView() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let margins = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: margins.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: margins.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        self.tableView.register(SearchCityCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        self.tableView.backgroundColor = .current(color: .background)
-        self.tableView.estimatedRowHeight = 100
-        self.tableView.allowsSelection = true
-        self.tableView.separatorStyle = .none
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-    }
-    
+
     func loadJson(filename fileName: String) -> [City]? {
         if let url = Bundle.main.url(forResource: fileName, withExtension: "json") {
             do {
@@ -108,7 +99,6 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
         }
         return nil
     }
-   
     // MARK: - Search bar Delegates
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.dismiss(animated: true, completion: nil)

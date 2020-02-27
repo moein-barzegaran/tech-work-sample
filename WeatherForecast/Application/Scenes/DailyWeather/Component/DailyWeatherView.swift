@@ -10,14 +10,46 @@ import UIKit
 
 class DailyWeatherView: UIView {
     // MARK: - Views
-    private lazy var titleLabel = Label(text: "Daily Forecast", font: .systemFont(ofSize: 18, weight: .bold), textColor: .current(color: .textColor))
+    private lazy var titleLabel: Label = {
+        let label = Label(text: "Daily Forecast", font: .systemFont(ofSize: 18, weight: .bold), textColor: .current(color: .textColor))
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
+        ])
+        return label
+    }()
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(collection)
+        
+        NSLayoutConstraint.activate([
+            collection.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            collection.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
+            collection.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
+            collection.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        collection.collectionViewLayout = self.collectionViewFlowLayout
+        collection.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        collection.showsHorizontalScrollIndicator = false
+        collection.register(DailyWeatherCell.self, forCellWithReuseIdentifier: cellReuseIdentifier)
         collection.backgroundColor = .current(color: .background)
         return collection
     }()
-    private lazy var dailyWeatherDetailView = DailyWeatherDetailView()
+    private lazy var dailyWeatherDetailView: DailyWeatherDetailView = {
+        let detailView = DailyWeatherDetailView()
+        addSubview(detailView)
+        
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
+            detailView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+            detailView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
+            detailView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+        ])
+        return detailView
+    }()
     private lazy var collectionViewFlowLayout : UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -48,10 +80,6 @@ class DailyWeatherView: UIView {
         super.layoutSubviews()
         layer.cornerRadius = 15
         clipsToBounds = true
-        if !subviews.contains(where: {$0 is UICollectionView}) {
-            prepareCollectionView()
-            prepareDailyWeatherDetailView()
-        }
     }
     
     func configuration(_ data: ForecastDailyModel) {
@@ -63,48 +91,6 @@ class DailyWeatherView: UIView {
     
     private func commonInit() {
         self.backgroundColor = .current(color: .background)
-        setupViews()
-    }
-    
-    private func setupViews() {
-        prepareTitleLabel()
-    }
-    
-    private func prepareTitleLabel() {
-        addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-        ])
-    }
-    
-    private func prepareCollectionView() {
-        addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
-            collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
-            collectionView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-        self.collectionView.collectionViewLayout = self.collectionViewFlowLayout
-        self.collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        self.collectionView.showsHorizontalScrollIndicator = false
-        self.collectionView.register(DailyWeatherCell.self, forCellWithReuseIdentifier: cellReuseIdentifier)
-        
-        self.collectionView.backgroundColor = .current(color: .background)
-    }
-    
-    private func prepareDailyWeatherDetailView() {
-        addSubview(dailyWeatherDetailView)
-        
-        NSLayoutConstraint.activate([
-            dailyWeatherDetailView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
-            dailyWeatherDetailView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
-            dailyWeatherDetailView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
-            dailyWeatherDetailView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
-        ])
     }
 }
 

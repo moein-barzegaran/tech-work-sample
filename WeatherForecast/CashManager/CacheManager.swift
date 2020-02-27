@@ -52,7 +52,7 @@ class CacheManager {
             citiesList = retrievedCities
             return retrievedCities
         } catch {
-            print("Error: Problem in fetching cities list")
+            print("Error: This is first startup and your cache is empty")
         }
         return nil
     }
@@ -75,7 +75,7 @@ class CacheManager {
             let retrievedCity = try Disk.retrieve("MyFavoriteCity.json", from: .caches, as: CurrentWeatherModel.self)
             return retrievedCity
         } catch {
-            print("Error: Problem in fetching cities list")
+            print("Error: This is first startup and Cities list is empty")
         }
         return nil
     }

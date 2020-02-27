@@ -10,17 +10,36 @@ import UIKit
 
 class HourlyWeatherView: UIView {
     // MARK: - Views
-    private lazy var titleLabel = Label(text: "Hourly Forecast", font: .systemFont(ofSize: 18, weight: .bold), textColor: .current(color: .textColor))
+    private lazy var titleLabel: Label = {
+        let label = Label(text: "Hourly Forecast", font: .systemFont(ofSize: 18, weight: .bold), textColor: .current(color: .textColor))
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
+        ])
+        return label
+    }()
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(collection)
+        
+        NSLayoutConstraint.activate([
+            collection.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            collection.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
+            collection.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
+            collection.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
         collection.showsHorizontalScrollIndicator = false
         collection.backgroundColor = .current(color: .background)
+        collection.collectionViewLayout = collectionViewFlowLayout
+        collection.register(HourlyWeatherCell.self, forCellWithReuseIdentifier: cellReuseIdentifier)
         return collection
     }()
     private lazy var collectionViewFlowLayout : UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width > 500 ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * 0.25, height: collectionView.frame.height * 0.9)
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width > 500 ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * 0.25, height: 180)
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -45,9 +64,6 @@ class HourlyWeatherView: UIView {
         super.layoutSubviews()
         layer.cornerRadius = 15
         clipsToBounds = true
-        if !subviews.contains(where: {$0 is UICollectionView}) {
-            prepareCollectionView()
-        }
     }
     
     func configuration(_ data: ForecastHourlyModel) {
@@ -59,35 +75,6 @@ class HourlyWeatherView: UIView {
     
     private func commonInit() {
         self.backgroundColor = .current(color: .background)
-        setupViews()
-    }
-    
-    private func setupViews() {
-        prepareTitleLabel()
-    }
-    
-    private func prepareTitleLabel() {
-        addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-        ])
-    }
-    
-    private func prepareCollectionView() {
-        addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
-            collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        self.collectionView.collectionViewLayout = collectionViewFlowLayout
-        self.collectionView.register(HourlyWeatherCell.self, forCellWithReuseIdentifier: cellReuseIdentifier)
-        
-        self.collectionView.backgroundColor = .current(color: .background)
     }
 }
 
